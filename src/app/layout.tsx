@@ -1,9 +1,10 @@
 import { Manrope } from 'next/font/google'
 import './globals.css'
-import Header from '@/app/components/Layout/Header'
-import Footer from '@/app/components/Layout/Footer'
 import ScrollToTop from '@/app/components/ScrollToTop'
 import Aoscompo from '@/utils/aos'
+import { AuthProvider } from '@/context/AuthContext'
+import { ToastContainer } from '@/components/Toast/ToastContainer'
+
 const font = Manrope({ subsets: ['latin'] })
 
 export default function RootLayout({
@@ -14,12 +15,16 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body className={`${font.className}`}>
-        <Aoscompo>
-          <Header />
-          {children}
-          <Footer />
-        </Aoscompo>
-        <ScrollToTop />
+        <AuthProvider>
+          <Aoscompo>
+            {/* No header/footer - dashboard specific app */}
+            <main>
+              {children}
+            </main>
+          </Aoscompo>
+          <ScrollToTop />
+          <ToastContainer />
+        </AuthProvider>
       </body>
     </html>
   )
